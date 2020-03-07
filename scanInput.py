@@ -48,8 +48,8 @@ with open('Input magazine content tagging - recover.csv', 'rb') as csvfile:
 			currentIssueNumber = issueNumber 
 			articlePageOffsetInCurrentIssue = 0
 
-		series = row[6]
-		pagesInArticle = row[3]
+		series = row[8]
+		pagesInArticle = row[5]
 
 		print "row=",row
 		print "pages in article =", pagesInArticle
