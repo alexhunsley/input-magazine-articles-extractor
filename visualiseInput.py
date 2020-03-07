@@ -16,8 +16,6 @@ onePageThickness = 8
 xBorder = 16
 yBorder = 16
 
-x = xBorder
-y = yBorder
 
 maxPages = 50
 
@@ -26,50 +24,60 @@ draw = ImageDraw.Draw(img, 'RGB')
 
 articleColours = { 'bp' : 'red', 'gp' : 'green', 'mc' : 'blue', 'l' : 'purple', 'p' : 'grey', 'a' : 'cyan', 'none' : 'lightgrey'}
 
-with open('Input magazine content tagging - recover.csv', 'rb') as csvfile:
-	spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+def produceChartForCode(articleCode='all'):
+	x = xBorder
+	y = yBorder
 
-	idx = 0
+	with open('Input magazine content tagging - recover.csv', 'rb') as csvfile:
+		spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
 
-	currentIssueNumber = 0
-	articlePageOffsetInCurrentIssue = 0
+		idx = 0
 
-	for row in spamreader:
-		idx += 1
-		if (idx < 4):
-			continue
+		currentIssueNumber = 0
+		articlePageOffsetInCurrentIssue = 0
 
-		articleNumber = row[0]
-		issueNumber = row[1]
+		for row in spamreader:
+			idx += 1
+			if (idx < 4):
+				continue
 
-		# stop at the index article
-		if (articleNumber == "270"):
-			break
+			articleNumber = row[0]
+			issueNumber = row[1]
 
-		if (issueNumber != currentIssueNumber):
-			x += barWidth
-			y = yBorder
+			# stop at the index article
+			if (articleNumber == "270"):
+				break
 
-			print "=========== new issue! ", issueNumber
-			currentIssueNumber = issueNumber 
-			articlePageOffsetInCurrentIssue = 0
+			if (issueNumber != currentIssueNumber):
+				x += barWidth
+				y = yBorder
 
-		series = row[6]
-		pagesInArticle = int(row[5])
+				print "=========== new issue! ", issueNumber
+				currentIssueNumber = issueNumber 
+				articlePageOffsetInCurrentIssue = 0
 
-		print "series, col =", series, articleColours[series]
+			series = row[6]
+			pagesInArticle = int(row[5])
 
-		barHeight = pagesInArticle * onePageThickness
+			print "series, col =", series, articleColours[series]
 
-		if (series != 'l'):
-		# if (series != 'gp'):
-			series = 'none'
+			barHeight = pagesInArticle * onePageThickness
 
-		draw.rectangle([x, y,  x + barWidth - 2, y + barHeight - 2], fill=articleColours[series])
+			if articleCode != 'all' and series != articleCode:
+			# if (series != 'gp'):
+				series = 'none'
 
-		y += barHeight
+			draw.rectangle([x, y,  x + barWidth - 2, y + barHeight - 2], fill=articleColours[series])
 
-img.save('inputChart.png')		
+			y += barHeight
+
+	img.save('inputChart-%s.png' % articleCode)		
+
+
+for articleCode in articleColours:
+	produceChartForCode(articleCode)
+
+produceChartForCode()
 
 print "DONE -------------------------"
 
