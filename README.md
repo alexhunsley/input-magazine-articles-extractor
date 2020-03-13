@@ -4,8 +4,8 @@ This is a Python script that uses `qpdf` to build PDF collections of articles in
 
 You'll need to install qpdf (e.g. `brew install qpdf`).
 
-There is also a script that can generate pngs showing where in the publish run of input articles of a certain type appeared (visualiseInput.py).
-You'll have to install pillow first (`pip install pillow`).
+There is also a script that can generate pngs showing where in the publish run of input articles of a certain type appeared (`visualiseInput.py`).
+To run this you'll have to install pillow (`pip install pillow`).
 
 # Stats on INPUT magazine contents
 
