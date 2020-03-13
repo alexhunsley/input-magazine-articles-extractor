@@ -11,14 +11,15 @@ You'll have to install pillow first (`pip install pillow`).
 
 See `Input magazine content tagging.csv`.
 
-# INPUT magazine minutiae
+# INPUT magazine minutiae and notes
 
-The peripheral series is not numbered!
-did they take solicitations? See note at bottom of yellow index pages
-Cliffhanger – they published the entire binary content of memory to check it – rather than checksums! Not even a checksum byte per page.
-P article in issue 50 has no name.
-machine code article – claims mc is nice and easy,  not like HLLs!
-mc sprite routines were using &FFEE usual printing routine – kind of pointless?
+* The peripheral series is not numbered
+
+* P article in issue 50 has no name
+
+* one of thew machine code articles claims m/c is nice and easy, not like HLLs!
+
+* mc sprite routines were using the usual &FFEE usual printing routine – kind of pointless?
 
 # The article charts as a poster
 
