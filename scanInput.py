@@ -22,7 +22,7 @@ import csv
 from subprocess import call
 
 
-makePDFFor = "udgs"
+makePDFFor = "3d"
 #
 # NB:
 # all valid values for makePDFFor (and their article counts):
@@ -77,7 +77,7 @@ def representsInt(s):
 
 seriesFound = {}
 
-with open('Input magazine content tagging', 'r') as csvfile:
+with open('Input magazine content tagging.csv', 'r') as csvfile:
 	spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
 
 
