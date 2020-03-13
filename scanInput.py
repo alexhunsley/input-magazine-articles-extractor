@@ -1,12 +1,72 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 #
-# Scan input metadata and make pdf extracts with articles from various
+# scanInput.py
 #
+# THIS PROJECT IS EXTREMELY ROUGH AND READY! But it works (at least for me).
+#
+# This script scans INPUT magazine metadata and uses qpdf to make pdf extracts
+# with articles from various article series.
+#
+# To run:
+#
+# Edit the makePDFFor string below to one of the values in comment alongside. (These are all
+# values 'series tag' in the speadsheet 'Input magazine content tagging.csv'.)
+#
+# Then run this script without any arguments:
+#
+# python scanInput.py 
 #
 
 import csv
 from subprocess import call
+
+
+makePDFFor = "udgs"
+#
+# NB:
+# all valid values for makePDFFor (and their article counts):
+#
+# 22 cliffhanger
+#  9 adventure
+#  6 escapeadventure
+#  4 udgs
+#  4 3d
+#  3 wargame
+#  3 typingtutor
+#  3 texteditor
+#  3 pontoon
+#  3 musiccomposer
+#  3 foxandgeese
+#  3 forth
+#  3 flightsim
+#  3 commsprites
+#  3 calendar
+#  2 udggenerator
+#  2 spidergame
+#  2 secretmessages
+#  2 progsinshape
+#  2 planningapp
+#  2 pascal
+#  2 pagedgraphics
+#  2 othello
+#  2 mininggame
+#  2 maze
+#  2 logo
+#  2 lisp
+#  2 intdesign
+#  2 hobbiesfiles
+#  2 headlines
+#  2 hangman
+#  2 fruitmachine
+#  2 fractals
+#  2 commodoreassembler
+#  2 commhires
+#  2 cad
+#  2 assemblingbyhand
+#  2 acornsqueezer
+#  1 datafile
+
 
 def representsInt(s):
     try: 
@@ -17,7 +77,7 @@ def representsInt(s):
 
 seriesFound = {}
 
-with open('Input magazine content tagging - recover.csv', 'rb') as csvfile:
+with open('Input magazine content tagging', 'r') as csvfile:
 	spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
 
 
@@ -44,18 +104,18 @@ with open('Input magazine content tagging - recover.csv', 'rb') as csvfile:
 			break
 
 		if (issueNumber != currentIssueNumber):
-			print "=========== new issue! preamble = ", preamblePageCount
+			print("=========== new issue! preamble = ", preamblePageCount)
 			currentIssueNumber = issueNumber 
 			articlePageOffsetInCurrentIssue = 0
 
 		series = row[8]
 		pagesInArticle = row[5]
 
-		print "row=",row
-		print "pages in article =", pagesInArticle
+		print("row=", row)
+		print("pages in article =", pagesInArticle)
 
 		if (len(series) > 0):
-			print series
+			print(series)
 
 			if (not series in seriesFound):
 				seriesFound[series] = []
@@ -70,17 +130,12 @@ with open('Input magazine content tagging - recover.csv', 'rb') as csvfile:
 
 		articlePageOffsetInCurrentIssue += int(pagesInArticle)
 
-		print "page for article in curr issue = ", articlePageOffsetInCurrentIssue 
+		print("page for article in curr issue = ", articlePageOffsetInCurrentIssue) 
 
-print "DONE -------------------------"
+print("DONE -------------------------")
 
-print seriesFound
+print(seriesFound)
 
-# makePDFFor = "pascal"
-# makePDFFor = "escapeadventure"
-# makePDFFor = "cliffhanger"
-# makePDFFor = "3d"
-makePDFFor = "adventure"
 
 recs = seriesFound[makePDFFor]
 
@@ -89,9 +144,9 @@ cmdStr = ""
 paramPart = ""
 
 for (issueNum, pageNumInIssue, pagesInArticle) in recs:
-	print issueNum, pageNumInIssue, pagesInArticle
+	print(issueNum, pageNumInIssue, pagesInArticle)
 
-	pdfFilename = 'allInOneFolder/input%s.pdf' % ('%02d' % int(issueNum))
+	pdfFilename = 'inputPDFs/input%s.pdf' % ('%02d' % int(issueNum))
 	rangeText = "%s-%s" % (pageNumInIssue + 1, pageNumInIssue + pagesInArticle)
 
 	# paramPart += rangeText
@@ -99,13 +154,13 @@ for (issueNum, pageNumInIssue, pagesInArticle) in recs:
 
 	cmdStr += ' %s %s' % (pdfFilename, rangeText)
 
-print cmdStr
+print(cmdStr)
 
 fullCmd = "qpdf --empty --pages%s -- %s.pdf" % (cmdStr, makePDFFor)
 
 
-print "CALLING COMMAND: ", fullCmd.split(' ')
-print "CALLING COMMAND: ", fullCmd
+print("CALLING COMMAND: ", fullCmd.split(' '))
+print("CALLING COMMAND: ", fullCmd)
 
 call(fullCmd.split(' '))
 

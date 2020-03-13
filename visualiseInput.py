@@ -7,6 +7,7 @@
 import csv
 from PIL import Image
 from PIL import ImageDraw
+from PIL import ImageFont
 
 #px per bar
 barWidth = 8
@@ -19,16 +20,24 @@ yBorder = 16
 
 maxPages = 50
 
-img = Image.new('RGB', (xBorder * 2  + 51 * (barWidth + 1), yBorder * 2 + onePageThickness * maxPages), color = 'white')
-draw = ImageDraw.Draw(img, 'RGB')
+imgWidth = xBorder * 2  + 51 * (barWidth + 1)
+imgHeight = yBorder * 2 + onePageThickness * maxPages
 
-articleColours = { 'bp' : 'red', 'gp' : 'green', 'mc' : 'blue', 'l' : 'purple', 'p' : 'grey', 'a' : 'cyan', 'none' : 'lightgrey'}
+
+font = ImageFont.truetype("Futura.ttc", 25)
+
+articleColours = { 'bp' : '#990D7D', 'gp' : '#FF5D00', 'mc' : '#1B5FD1', 'l' : '#F7280D', 'p' : '#A2CA20', 'a' : '#FFCE00', 'none' : 'lightgrey'}
+categoryNames = { 'bp' : "Basic Programming", 'gp' : "Graphics Programming", 'mc' : "Machine Code", 'l' : "Languages", 'p' : "Peripherals", 'a' : "Applications"}
+
 
 def produceChartForCode(articleCode='all'):
+	img = Image.new('RGB', (imgWidth, imgHeight), color = 'white')
+	draw = ImageDraw.Draw(img, 'RGB')
+	
 	x = xBorder
 	y = yBorder
 
-	with open('Input magazine content tagging - recover.csv', 'rb') as csvfile:
+	with open('Input magazine content tagging.csv', 'r') as csvfile:
 		spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
 
 		idx = 0
@@ -52,14 +61,14 @@ def produceChartForCode(articleCode='all'):
 				x += barWidth
 				y = yBorder
 
-				print "=========== new issue! ", issueNumber
+				print("=========== new issue! ", issueNumber)
 				currentIssueNumber = issueNumber 
 				articlePageOffsetInCurrentIssue = 0
 
 			series = row[6]
 			pagesInArticle = int(row[5])
 
-			print "series, col =", series, articleColours[series]
+			print("series, col =", series, articleColours[series])
 
 			barHeight = pagesInArticle * onePageThickness
 
@@ -71,6 +80,9 @@ def produceChartForCode(articleCode='all'):
 
 			y += barHeight
 
+	# text for category name
+	draw.text((50, imgHeight - 50), "Article code: %s" % articleCode, fill=(0, 0, 0, 255), font=font)
+
 	img.save('inputChart-%s.png' % articleCode)		
 
 
@@ -79,7 +91,7 @@ for articleCode in articleColours:
 
 produceChartForCode()
 
-print "DONE -------------------------"
+print("DONE -------------------------")
 
 
 # makePDFFor = "pascal"
