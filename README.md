@@ -17,7 +17,7 @@ See `Input magazine content tagging.csv`.
 
 * P article in issue 50 has no name
 
-* one of thew machine code articles claims m/c is nice and easy, not like HLLs!
+* one of the machine code articles claims m/c is nice and easy, not like HLLs!
 
 * mc sprite routines were using the usual &FFEE usual printing routine – kind of pointless?
 
