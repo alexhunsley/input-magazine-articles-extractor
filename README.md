@@ -23,4 +23,6 @@ See `Input magazine content tagging.csv`.
 
 # The article charts as a poster
 
+Issues are shown as vertical strip of bars, each bar is an article. Heightwise, 8 pixels in a bar = 1 page (with Input 1 at left, Input 51 at right). First article in an issue is at the top of chart. The final index issue (52) is not included here.
+
 ![INPUT magazine article coverage as a poster](inputChart-poster.png)
