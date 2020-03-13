@@ -1,6 +1,6 @@
 # INPUT magazine articles extractor
 
-This is a Python script that uses `qpdf` to build PDF collections of articles in a given series. See scanInput.py for more details.
+This is a Python script that uses `qpdf` to build PDF collections of articles in a given series. See `scanInput.py` for more details.
 
 You'll need to install qpdf (e.g. `brew install qpdf`).
 
