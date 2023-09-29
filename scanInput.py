@@ -22,7 +22,7 @@ import csv
 from subprocess import call
 
 
-makePDFFor = "3d"
+makePDFFor = "datafile"
 #
 # NB:
 # all valid values for makePDFFor (and their article counts):
